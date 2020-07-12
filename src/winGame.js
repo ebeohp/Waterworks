@@ -4,9 +4,11 @@ export default class winGame extends Phaser.Scene {
   }
   init() {}
   preload() {}
-  create() {}
+  create() {
+    this.add.bitmapText(300,300, "pixelFont", "Level Complete!", 50).setDepth(100);
+  }
   update() {}
-  restartGame() {
-    this.scene.start("bootGame");
+  returnHome() {
+    this.scene.start("playGame");
   }
 }
