@@ -2,34 +2,40 @@ export default class levelTwo extends Phaser.Scene {
     constructor() {
       super("levelTwo");
     }
-
+    //add a moves counter
     create() {
         this.add.bitmapText(30,30, "pixelFont", "Level 2", 40).setDepth(100);
 
         this.tubeGroup = this.physics.add.group();
         this.tube1 = this.tubeGroup.create(100,440, "tubeA").setScale(.5).setInteractive();
-            this.target1=this.tube1.angle=180; 
+            this.tube1.angle=270; 
+            this.target1=this.tube1.angle;
         this.tube2 = this.tubeGroup.create(197,440, "tubeA").setScale(.5).setInteractive();
-            this.target2=this.tube2.angle=360; 
+            this.tube2.angle=270; 
+            this.target2=this.tube2.angle;
         this.tube3 = this.tubeGroup.create(392,302, "tubeA").setScale(.5).setInteractive();
-            this.target3=this.tube3.angle=360; 
+            this.target3=this.tube3.angle=270; 
         this.tube4 = this.tubeGroup.create(116,507, "tubeC").setScale(.5).setInteractive();
-            this.target4=this.tube4.angle=180; //180 correct
+            this.target4=this.tube4.angle=270; //180 correct
+            console.log(this.tube4.angle)
         this.tube5 = this.tubeGroup.create(180,507, "tubeC").setScale(.5).setInteractive();
             this.target5=this.tube5.angle=90; //90 correct
+            
         this.tube6 = this.tubeGroup.create(278,373, "tubeC").setScale(.5).setInteractive();
-            this.target6=this.tube6.angle=360; //360 correct
+            this.target6=this.tube6.angle=90; //360 correct
+            
         this.tube7 = this.tubeGroup.create(309,507, "tubeC").setScale(.5).setInteractive();
-            this.target7=this.tube7.angle=180; //180 correct
+            this.target7=this.tube7.angle=270; //180 correct
+            
         this.tube8 = this.tubeGroup.create(375,507, "tubeC").setScale(.5).setInteractive();
-            this.target8=this.tube8.angle=90; //90 correct
-        this.tube9 = this.tubeGroup.create(100,300, "tubeA").setScale(.5); //
-        this.tube10 = this.tubeGroup.create(100,370, "tubeA").setScale(.5); //
-        this.tube11 = this.tubeGroup.create(213,372, "tubeC").setScale(.5);//
-            this.tube11.angle=270;
-        this.tube12 = this.tubeGroup.create(295,442, "tubeA").setScale(.5); //
-        this.tube13 = this.tubeGroup.create(392,442, "tubeA").setScale(.5); //
-        this.tube14 = this.tubeGroup.create(392,372, "tubeA").setScale(.5); //
+            this.target8=this.tube8.angle=180; //90 correct
+        this.tube9 = this.tubeGroup.create(100,300, "tubeA").setScale(.5); 
+        this.tube10 = this.tubeGroup.create(100,370, "tubeA").setScale(.5); 
+        this.tube11 = this.tubeGroup.create(213,372, "tubeC").setScale(.5);
+           this.tube11.angle=270;
+        this.tube12 = this.tubeGroup.create(295,442, "tubeA").setScale(.5); 
+        this.tube13 = this.tubeGroup.create(392,442, "tubeA").setScale(.5);
+        this.tube14 = this.tubeGroup.create(392,372, "tubeA").setScale(.5); 
             
         this.thing = 5;
 
@@ -78,15 +84,7 @@ export default class levelTwo extends Phaser.Scene {
             this.rotate(this.tube5, this.target5);
             console.log(this.target5);
         }, this);
-        this.tube6.on('pointerdown', function (pointer) {
-            if(this.target6+90>360){
-              this.target6=90;
-            }else{
-              this.target6 += 90;
-            }
-            this.rotate(this.tube6, this.target6);
-            console.log(this.target6);
-        }, this);
+      
         this.tube6.on('pointerdown', function (pointer) {
             if(this.target6+90>360){
               this.target6=90;
@@ -128,18 +126,19 @@ export default class levelTwo extends Phaser.Scene {
         }, this);
     }
     update() { 
-        if((this.tube1.angle==360||this.tube1.angle==180) && 
-           (this.tube2.angle==360||this.tube2.angle==180) && 
-           (this.tube3.angle==360||this.tube3.angle==180) && 
-            this.tube4.angle==180 &&
+        console.log();
+        if((this.tube1.angle==360||this.tube1.angle==180|| this.tube1.angle==0|| this.tube1.angle==-180) && 
+           (this.tube2.angle==360||this.tube2.angle==180|| this.tube2.angle==0|| this.tube2.angle==-180) && 
+           (this.tube3.angle==360||this.tube3.angle==180|| this.tube3.angle==0|| this.tube3.angle==-180) && 
+            (this.tube4.angle==180 || this.tube4.angle==-180)&&
             this.tube5.angle==90 && 
-            this.tube6.angle==360 &&
-            this.tube7.angle==180 &&
+            (this.tube6.angle==360|| this.tube6.angle==0) &&
+            (this.tube7.angle==180|| this.tube7.angle==-180) &&
             this.tube8.angle==90
           ){ console.log("completed11");
         
             this.time.addEvent({  
-              delay: 1000, 
+              delay: 500, 
               callback: this.complete, 
               callbackScope: this, 
               loop: false
