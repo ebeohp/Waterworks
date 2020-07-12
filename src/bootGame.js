@@ -5,8 +5,8 @@ export default class bootGame extends Phaser.Scene {
   preload() {}
   create() {
     
-    this.scene.start("levelOne");
-    //this.startGame();
+    this.scene.start("levelTwo");
+   
   }
 
   update() {}
