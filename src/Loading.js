@@ -5,12 +5,26 @@ import progress from "./assets/sprites/progress.png";
 import tubeA from "./assets/images/tube1.png";
 import tubeB from "./assets/images/tube2.png";
 import tubeC from "./assets/images/tube3.png";
+import background from "./assets/images/background.png";
+import title from "./assets/images/title.png";
+import itsy from "./assets/sprites/itsy.png";
+import leak from "./assets/sprites/leak.png";
 class Loading extends Phaser.Scene {
   constructor() {
     super("loadGame");
   }
   preload() {
     this.load.bitmapFont("pixelFont", fontPng, fontXml);
+    this.load.image("background",background);
+    this.load.image("title", title);
+    this.load.spritesheet("itsy", itsy, {
+      frameWidth: 96,
+      frameHeight: 96,
+    });
+    this.load.spritesheet("leak", leak, {
+      frameWidth: 80,
+      frameHeight:160,
+    });
     this.load.spritesheet("tubeA", tubeA, {
       frameWidth: 80,
       frameHeight: 160,
@@ -44,6 +58,18 @@ class Loading extends Phaser.Scene {
       key: "loading",
       frames: this.anims.generateFrameNumbers("bar"),
       frameRate: 12,
+    });
+    this.anims.create({
+      key: "itsy_blink",
+      frames: this.anims.generateFrameNumbers("itsy"),
+      frameRate: 5,
+      repeat: -1
+    });
+    this.anims.create({
+      key: "leak_anim",
+      frames: this.anims.generateFrameNumbers("leak"),
+      frameRate: 3,
+      repeat: -1
     });
     this.progbar = this.add.sprite(300, 350, "bar");
     this.progbar.play("loading").setScale(2);
