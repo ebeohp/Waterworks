@@ -5,10 +5,13 @@ import progress from "./assets/sprites/progress.png";
 import tubeA from "./assets/images/tube1.png";
 import tubeB from "./assets/images/tube2.png";
 import tubeC from "./assets/images/tube3.png";
+import tubeD from "./assets/images/tube4.png";
 import background from "./assets/images/background.png";
-import title from "./assets/images/title.png";
+import background2 from "./assets/images/background2.png";
+import title from "./assets/images/title2.png";
 import itsy from "./assets/sprites/itsy.png";
 import leak from "./assets/sprites/leak.png";
+import texture from "./assets/images/texture.png";
 class Loading extends Phaser.Scene {
   constructor() {
     super("loadGame");
@@ -16,7 +19,9 @@ class Loading extends Phaser.Scene {
   preload() {
     this.load.bitmapFont("pixelFont", fontPng, fontXml);
     this.load.image("background",background);
+    this.load.image("background2",background2);
     this.load.image("title", title);
+    this.load.image("texture",texture);
     this.load.spritesheet("itsy", itsy, {
       frameWidth: 96,
       frameHeight: 96,
@@ -37,7 +42,10 @@ class Loading extends Phaser.Scene {
       frameWidth: 130,
       frameHeight: 130,
     });
-
+    this.load.spritesheet("tubeD", tubeD, {
+      frameWidth: 160,
+      frameHeight: 320,
+    });
     this.load.spritesheet("bar", progress, {
       frameWidth: 200,
       frameHeight: 16,
