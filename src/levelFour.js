@@ -5,8 +5,17 @@ export default class levelFour extends Phaser.Scene {
     create() { 
       this.background= this.add.image(0,0, "background2"); //image is 1200x1200
         this.background.setOrigin(0);
-        this.level = this.add.bitmapText(150,30, "pixelFont", "Level 4", 40).setDepth(100);
-          this.level.setScrollFactor(1);
+        this.add.bitmapText(150,30, "pixelFont", "Level 4", 40).setDepth(100);
+
+        this.mentor = this.add.sprite(219,84, "itsy16"); 
+        this.mentor.play("itsy16_anim").setScale(2);
+        this.text = this.createSpeechBubble(260, 20, 150, 50, 'Looks easy at first...');
+        
+        this.house1=this.add.sprite(250,250,"houses");
+          this.house1.setFrame(0).setScale(2);
+        this.house2=this.add.sprite(350,250,"houses");
+          this.house2.setFrame(0).setScale(2);
+
         this.cameras.main.setBounds(120,0,600,1000);
         var cursors = this.input.keyboard.createCursorKeys();
         var controlConfig = {
@@ -194,5 +203,52 @@ export default class levelFour extends Phaser.Scene {
     }, this);
 
   }
+  createSpeechBubble (x, y, width, height, quote)
+  {
+    var bubbleWidth = width;
+    var bubbleHeight = height;
+    var bubblePadding = 10;
+    var arrowHeight = bubbleHeight / 4;
+
+    var bubble = this.add.graphics({ x: x, y: y });
+
+    //  Bubble shadow
+    bubble.fillStyle(0x222222, 0.5);
+    bubble.fillRoundedRect(6, 6, bubbleWidth, bubbleHeight, 16);
+
+    //  Bubble color
+    bubble.fillStyle(0xffffff, 1);
+
+    //  Bubble outline line style
+    bubble.lineStyle(4, 0x565656, 1);
+
+    //  Bubble shape and outline
+    bubble.strokeRoundedRect(0, 0, bubbleWidth, bubbleHeight, 16);
+    bubble.fillRoundedRect(0, 0, bubbleWidth, bubbleHeight, 16);
+
+    //  Calculate arrow coordinates
+    var point1X = Math.floor(bubbleWidth / 7);
+    var point1Y = bubbleHeight;
+    var point2X = Math.floor((bubbleWidth / 7) * 2);
+    var point2Y = bubbleHeight;
+    var point3X = Math.floor(bubbleWidth / 7);
+    var point3Y = Math.floor(bubbleHeight + arrowHeight);
+
+    //  Bubble arrow shadow
+    bubble.lineStyle(4, 0x222222, 0.5);
+    bubble.lineBetween(point2X - 1, point2Y + 6, point3X + 2, point3Y);
+
+    //  Bubble arrow fill
+    bubble.fillTriangle(point1X, point1Y, point2X, point2Y, point3X, point3Y);
+    bubble.lineStyle(2, 0x565656, 1);
+    bubble.lineBetween(point2X, point2Y, point3X, point3Y);
+    bubble.lineBetween(point1X, point1Y, point3X, point3Y);
+
+    var content = this.add.text(0, 0, quote, { fontFamily: 'Comic Sans MS', fontSize: 18, color: '#000000', align: 'center', wordWrap: { width: bubbleWidth - (bubblePadding * 2) } });
+
+    var b = content.getBounds();
+
+    content.setPosition(bubble.x + (bubbleWidth / 2) - (b.width / 2), bubble.y + (bubbleHeight / 2) - (b.height / 2));
+  }  
     
 }

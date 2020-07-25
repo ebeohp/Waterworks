@@ -10,7 +10,9 @@ import background from "./assets/images/background.png";
 import background2 from "./assets/images/background2.png";
 import title from "./assets/images/title2.png";
 import itsy from "./assets/sprites/itsy.png";
+import itsy16 from "./assets/sprites/itsy16.png";
 import leak from "./assets/sprites/leak.png";
+import houses from "./assets/sprites/houses.png";
 import texture from "./assets/images/texture.png";
 class Loading extends Phaser.Scene {
   constructor() {
@@ -25,6 +27,14 @@ class Loading extends Phaser.Scene {
     this.load.spritesheet("itsy", itsy, {
       frameWidth: 96,
       frameHeight: 96,
+    });
+    this.load.spritesheet("houses", houses, {
+      frameWidth: 64,
+      frameHeight: 64,
+    });
+    this.load.spritesheet("itsy16", itsy16, {
+      frameWidth: 32,
+      frameHeight: 32,
     });
     this.load.spritesheet("leak", leak, {
       frameWidth: 80,
@@ -71,6 +81,12 @@ class Loading extends Phaser.Scene {
       key: "itsy_blink",
       frames: this.anims.generateFrameNumbers("itsy"),
       frameRate: 5,
+      repeat: -1
+    });
+    this.anims.create({
+      key: "itsy16_anim",
+      frames: this.anims.generateFrameNumbers("itsy16"),
+      frameRate: 10,
       repeat: -1
     });
     this.anims.create({
