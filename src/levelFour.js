@@ -31,17 +31,19 @@ export default class levelFour extends Phaser.Scene {
           this.tube3.angle=90; 
         //
         this.tube4 = this.tubeGroup.create(403,412, "tubeB").setScale(.5).setInteractive();
-          this.target4=this.tube4.angle=0;
+          this.target4=this.tube4.angle=0; //0
           this.tube4.setOrigin(0.60,0.5);
         this.tube5 = this.tubeGroup.create(409,347, "tubeB").setScale(.5).setInteractive();
           this.target5=this.tube5.angle=270;
           this.tube5.setOrigin(0.70,0.5);
+          
         this.tube6 = this.tubeGroup.create(342,351, "tubeC").setScale(.5).setInteractive();
           this.target6=this.tube6.angle=180;
           this.tube6.setOrigin(0.75,0.25);
         this.tube7 = this.tubeGroup.create(490,350, "tubeD").setScale(.5).setInteractive();
           this.target7=this.tube7.angle=90; //90
           this.tube7.setOrigin(0.5,0.25);
+          
         this.tube8 = this.tubeGroup.create(405,485, "tubeC").setScale(.5).setInteractive();
           this.target8=this.tube8.angle=180;
           this.tube8.setOrigin(0.75,0.25);
@@ -81,7 +83,7 @@ export default class levelFour extends Phaser.Scene {
           this.target4 += 90;
         }
         this.rotate(this.tube4, this.target4);
-
+        
     }, this);
     this.tube5.on('pointerdown', function (pointer) {
       if(this.target5+90>360){
@@ -90,7 +92,7 @@ export default class levelFour extends Phaser.Scene {
         this.target5 += 90;
       }
       this.rotate(this.tube5, this.target5);
-
+      console.log(this.tube5.angle);
     }, this);
     this.tube6.on('pointerdown', function (pointer) {
       if(this.target6+90>360){
@@ -108,7 +110,7 @@ export default class levelFour extends Phaser.Scene {
         this.target7 += 90;
       }
       this.rotate(this.tube7, this.target7);
-
+      console.log(this.tube7.angle);
     }, this);
     this.tube8.on('pointerdown', function (pointer) {
       if(this.target8+90>360){
@@ -118,53 +120,79 @@ export default class levelFour extends Phaser.Scene {
       }
       this.rotate(this.tube8, this.target8);
 
-  }, this);
-  this.tube9.on('pointerdown', function (pointer) {
-    if(this.target9+90>360){
-      this.target9=90;
-    }else{
-      this.target9 += 90;
-    }
-    this.rotate(this.tube9, this.target9);
+    }, this);
+    this.tube9.on('pointerdown', function (pointer) {
+      if(this.target9+90>360){
+        this.target9=90;
+      }else{
+        this.target9 += 90;
+      }
+      this.rotate(this.tube9, this.target9);
 
-  }, this);
-  this.tube10.on('pointerdown', function (pointer) {
-    if(this.target10+90>360){
-      this.target10=90;
-    }else{
-      this.target10 += 90;
-    }
-    this.rotate(this.tube10, this.target10);
+    }, this);
+    this.tube10.on('pointerdown', function (pointer) {
+      if(this.target10+90>360){
+        this.target10=90;
+      }else{
+        this.target10 += 90;
+      }
+      this.rotate(this.tube10, this.target10);
 
-  }, this);
-  this.tube11.on('pointerdown', function (pointer) {
-    if(this.target11+90>360){
-      this.target11=90;
-    }else{
-      this.target11+= 90;
-    }
-    this.rotate(this.tube11, this.target11);
+    }, this);
+    this.tube11.on('pointerdown', function (pointer) {
+      if(this.target11+90>360){
+        this.target11=90;
+      }else{
+        this.target11+= 90;
+      }
+      this.rotate(this.tube11, this.target11);
 
-  }, this);
+    }, this);
         
         
           
-    }
-    
-    
-    update (time, delta){
-      this.controls.update(delta);
-    }
-    complete(){
-      console.log("completed");
-      this.scene.start("winGame");
-    }
-    rotate(tube, angle){
-      this.tweens.add({
-      targets: tube,
-      angle: angle,
-      }, this);
-
-    }
-    
   }
+    
+    
+  update (time, delta){
+    this.controls.update(delta);
+
+    if((this.tube1.angle%180==0|| this.tube1.angle==-180) && //A 0, 360, 180
+
+       (this.tube2.angle==180 || this.tube2.angle==-180) && 
+       (this.tube6.angle==180 || this.tube6.angle==-180)  &&
+       (this.tube8.angle==180 || this.tube8.angle==-180)  &&//C 180
+       
+       this.tube4.angle==0 && //B 0
+
+       (this.tube5.angle==-90 || this.tube5.angle==270) && //B270
+
+       this.tube7.angle == 90 && //D90
+       this.tube9.angle == 90
+
+    ){
+      
+          
+        this.time.addEvent({  
+            delay: 500, //500
+            callback: this.complete, 
+            callbackScope: this, 
+            loop: false
+        }); 
+    }
+  
+
+  }
+  complete(){
+    console.log("completed");
+    this.scene.start("winGame");
+  }
+  rotate(tube, angle){
+    this.tweens.add({
+    targets: tube,
+    angle: angle,
+    }, this);
+
+  }
+    
+}
