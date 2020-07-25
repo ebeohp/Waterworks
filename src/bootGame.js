@@ -20,7 +20,7 @@ export default class bootGame extends Phaser.Scene {
     this.leaky.play("leak_anim").setScale(1.8);
     
     this.createSpeechBubble(290, 70, 180, 50, 'Hit SPACE to play!');
-    this.scene.start("levelThree");
+    this.scene.start("levelFour");
   }
   update() {
 
