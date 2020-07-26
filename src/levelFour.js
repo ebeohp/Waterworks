@@ -9,7 +9,7 @@ export default class levelFour extends Phaser.Scene {
 
         this.mentor = this.add.sprite(219,84, "itsy16"); 
         this.mentor.play("itsy16_anim").setScale(2);
-        this.text = this.createSpeechBubble(260, 20, 150, 50, 'Looks easy at first...');
+        this.text = this.createSpeechBubble(260, 20, 150, 50, 'Looks simple at first...');
         
         this.house1=this.add.sprite(250,250,"houses");
           this.house1.setFrame(0).setScale(2);
@@ -36,7 +36,7 @@ export default class levelFour extends Phaser.Scene {
         this.tube2 = this.tubeGroup.create(249,411, "tubeC").setScale(.5).setInteractive();
           this.target2=this.tube2.angle=270;
           this.tube2.setOrigin(0.75,0.25);
-        this.tube3 = this.tubeGroup.create(333,410, "tubeA").setScale(.5).setInteractive();
+        this.tube3 = this.tubeGroup.create(333,410, "tubeA").setScale(.5);
           this.tube3.angle=90; 
         //
         this.tube4 = this.tubeGroup.create(403,412, "tubeB").setScale(.5).setInteractive();
@@ -179,9 +179,7 @@ export default class levelFour extends Phaser.Scene {
        this.tube7.angle == 90 && //D90
        this.tube9.angle == 90
 
-    ){
-      
-          
+    ){  
         this.time.addEvent({  
             delay: 500, //500
             callback: this.complete, 

@@ -7,6 +7,8 @@ export default class bootGame extends Phaser.Scene {
     this.texture=this.add.image(0,0,"texture");
     this.texture.setScale(1.5);
 
+    this.water= this.add.sprite(0,0,"water");
+    this.water.setFrame(0).setScale(4).setDepth(100);
     this.title=this.add.image(300,350, "title");
     this.tweens.add({
       targets:this.title,
@@ -19,11 +21,23 @@ export default class bootGame extends Phaser.Scene {
     this.leaky=this.add.sprite(400,480,"leak");
     this.leaky.play("leak_anim").setScale(1.8);
     
-    this.createSpeechBubble(290, 70, 180, 50, 'Hit SPACE to play!');
-    this.scene.start("levelFour");
+    this.createSpeechBubble(290, 70, 220, 50, 'Hit SPACE to play!');
+    this.spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+    //this.scene.start("playGame");
   }
   update() {
-
+    if(Phaser.Input.Keyboard.JustDown(this.spacebar)){
+      this.waterRise();
+     }
+  }
+  waterRise(){
+    this.water.play("water_anim");
+    this.time.addEvent({  
+      delay: 3000, 
+      callback: this.startGame, 
+      callbackScope: this, 
+      loop: false
+  });
   }
   createSpeechBubble (x, y, width, height, quote)
   {
@@ -66,7 +80,7 @@ export default class bootGame extends Phaser.Scene {
     bubble.lineBetween(point2X, point2Y, point3X, point3Y);
     bubble.lineBetween(point1X, point1Y, point3X, point3Y);
 
-    var content = this.add.text(0, 0, quote, { fontFamily: 'Arial', fontSize: 20, color: '#000000', align: 'center', wordWrap: { width: bubbleWidth - (bubblePadding * 2) } });
+    var content = this.add.text(0, 0, quote, { fontFamily: 'Comic Sans MS', fontSize: 20, color: '#000000', align: 'center', wordWrap: { width: bubbleWidth - (bubblePadding * 2) } });
 
     var b = content.getBounds();
 

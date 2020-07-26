@@ -13,17 +13,31 @@ import itsy from "./assets/sprites/itsy.png";
 import itsy16 from "./assets/sprites/itsy16.png";
 import leak from "./assets/sprites/leak.png";
 import houses from "./assets/sprites/houses.png";
+import level_buttons from "./assets/sprites/level_buttons.png";
+import water from "./assets/sprites/water.png";
 import texture from "./assets/images/texture.png";
+//import music from "./assets/sound/music.mp3";
 class Loading extends Phaser.Scene {
   constructor() {
     super("loadGame");
   }
   preload() {
     this.load.bitmapFont("pixelFont", fontPng, fontXml);
+
+    //this.load.audio("music", music);
+    
     this.load.image("background",background);
     this.load.image("background2",background2);
     this.load.image("title", title);
     this.load.image("texture",texture);
+    this.load.spritesheet("level_buttons", level_buttons, {
+      frameWidth: 32,
+      frameHeight: 32,
+    });
+    this.load.spritesheet("water", water, {
+      frameWidth: 300,
+      frameHeight: 300,
+    });
     this.load.spritesheet("itsy", itsy, {
       frameWidth: 96,
       frameHeight: 96,
@@ -72,6 +86,11 @@ class Loading extends Phaser.Scene {
     });
   }
   create() {
+    this.anims.create({
+      key: "water_anim",
+      frames: this.anims.generateFrameNumbers("water"),
+      frameRate: 5,
+    });
     this.anims.create({
       key: "loading",
       frames: this.anims.generateFrameNumbers("bar"),
