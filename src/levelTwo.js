@@ -4,6 +4,7 @@ export default class levelTwo extends Phaser.Scene {
     }
     //add a moves counter
     create() {
+        this.turn=this.sound.add("turn");
         this.add.bitmapText(30,30, "pixelFont", "Level 2", 40).setDepth(100);
         this.background=this.add.image(-60,-35,"background");
         this.background.setOrigin(0,0).setScale(2);
@@ -11,11 +12,40 @@ export default class levelTwo extends Phaser.Scene {
         this.mentor.play("itsy16_anim").setScale(2);
         this.createSpeechBubble(130, 60, 70, 25, 'Yay!');
 
+        this.restart_b = this.add.sprite(480,40,"menu");
+        this.restart_b.setFrame(2).setScale(.5).setInteractive();
+      
+        this.quit_b = this.add.sprite(550,40,"menu");
+        this.quit_b.setFrame(4).setScale(.5).setInteractive();
+
+        this.restart_b.on('pointerover', function (pointer) {
+          this.restart_b.setFrame(3);
+        }, this);
+      
+        this.quit_b.on('pointerover', function (pointer) {
+          this.quit_b.setFrame(5);
+        }, this);
+
+        this.restart_b.on('pointerout', function (pointer) {
+          this.restart_b.setFrame(2);
+        }, this);
+        this.quit_b.on('pointerout', function (pointer) {
+          this.quit_b.setFrame(4);
+        }, this);
+
+        this.restart_b.on('pointerup', function (pointer) {
+          this.scene.start("levelTwo");
+        }, this);
+        this.quit_b.on('pointerup', function (pointer) {
+          this.scene.start("playGame");
+        }, this);
+
+
         this.house1=this.add.sprite(150,217,"houses");
           this.house1.setFrame(0).setScale(2);
         this.house2=this.add.sprite(450,213,"houses");
           this.house2.setFrame(2).setScale(2);
-
+        /*Tubes begin below */
         this.tubeGroup = this.physics.add.group();
         this.tube1 = this.tubeGroup.create(150,440, "tubeA").setScale(.5).setInteractive();
             this.tube1.angle=270; 
@@ -123,10 +153,12 @@ export default class levelTwo extends Phaser.Scene {
         
     }
     complete(){
-        console.log("completed");
-        this.scene.start("winGame");
+      console.log("completed");
+      this.add.bitmapText(80,130, "pixelFont", "Level Complete!", 80).setDepth(100);
+      this.createSpeechBubble(130, 30, 140, 50, 'Congrats, matey');
       }
     rotate(tube, angle){
+        this.turn.play();
         this.tweens.add({
         targets: tube,
         angle: angle,

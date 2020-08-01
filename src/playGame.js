@@ -1,9 +1,19 @@
 export default class playGame extends Phaser.Scene {
   constructor() {
     super("playGame"); //this will be where we select levels.
+    this.music = null;
   }
-  create() { 
-    //this.music = this.sound.add("music");
+  create() {
+    if (!this.music || this.music.isPlaying)
+      {
+            this.music = this.sound.play('music', {
+                volume: 0.8,
+                rate: 1,
+                loop: true,
+                delay: 0
+            });
+      }
+
     this.background=this.add.image(0,0,"background");
         this.background.setOrigin(0,0);
     this.mentor = this.add.sprite(130,80, "itsy16"); 
@@ -21,7 +31,8 @@ export default class playGame extends Phaser.Scene {
       this.one.setFrame(1);
     }, this);
     this.one.on('pointerup', function (pointer) {
-      this.scene.start("levelOne")
+      this.scene.start("levelOne");
+      
     }, this);
 
     this.two = this.buttons.create(300,240, "level_buttons");
@@ -73,7 +84,7 @@ export default class playGame extends Phaser.Scene {
       this.five.setFrame(9);
     }, this);
     this.five.on('pointerup', function (pointer) {
-      this.startLevel(5);
+      this.scene.start("levelFive");
     }, this);
 
   }

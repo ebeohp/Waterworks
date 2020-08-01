@@ -16,7 +16,11 @@ import houses from "./assets/sprites/houses.png";
 import level_buttons from "./assets/sprites/level_buttons.png";
 import water from "./assets/sprites/water.png";
 import texture from "./assets/images/texture.png";
-//import music from "./assets/sound/music.mp3";
+import music from "./assets/sound/music.mp3";
+import watermusic from "./assets/sound/water.mp3";
+import win from "./assets/sound/win.mp3";
+import turn from "./assets/sound/turn.mp3";
+import menu from "./assets/sprites/menu.png";
 class Loading extends Phaser.Scene {
   constructor() {
     super("loadGame");
@@ -24,7 +28,11 @@ class Loading extends Phaser.Scene {
   preload() {
     this.load.bitmapFont("pixelFont", fontPng, fontXml);
 
-    //this.load.audio("music", music);
+    this.load.audio("music", music);
+    this.load.audio("watermusic", watermusic);
+    this.load.audio("win", win);
+    this.load.audio("turn", turn);
+
     
     this.load.image("background",background);
     this.load.image("background2",background2);
@@ -33,6 +41,11 @@ class Loading extends Phaser.Scene {
     this.load.spritesheet("level_buttons", level_buttons, {
       frameWidth: 32,
       frameHeight: 32,
+    });
+  
+    this.load.spritesheet("menu", menu, {
+      frameWidth: 160,
+      frameHeight: 160,
     });
     this.load.spritesheet("water", water, {
       frameWidth: 300,
@@ -87,6 +100,11 @@ class Loading extends Phaser.Scene {
   }
   create() {
     this.anims.create({
+      key: "confetti_anim",
+      frames: this.anims.generateFrameNumbers("confetti"),
+      frameRate: 10,
+    });
+    this.anims.create({
       key: "water_anim",
       frames: this.anims.generateFrameNumbers("water"),
       frameRate: 5,
@@ -125,8 +143,7 @@ class Loading extends Phaser.Scene {
       callbackScope: this,
       loop: true,
     });*/
-    this.scene.start("bootGame"); //delete and revert to above for prod
-
+    this.scene.start("levelFive"); //delete and revert to above for prod
   }
   update() {}
   finishLoad() {

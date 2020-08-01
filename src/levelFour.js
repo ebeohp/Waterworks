@@ -3,6 +3,7 @@ export default class levelFour extends Phaser.Scene {
       super("levelFour"); 
     }
     create() { 
+      this.turn=this.sound.add("turn");
       this.background= this.add.image(0,0, "background2"); //image is 1200x1200
         this.background.setOrigin(0);
         this.add.bitmapText(150,30, "pixelFont", "Level 4", 40).setDepth(100);
@@ -10,6 +11,34 @@ export default class levelFour extends Phaser.Scene {
         this.mentor = this.add.sprite(219,84, "itsy16"); 
         this.mentor.play("itsy16_anim").setScale(2);
         this.text = this.createSpeechBubble(260, 20, 150, 50, 'Looks simple at first...');
+
+        this.restart_b = this.add.sprite(480,40,"menu");
+        this.restart_b.setFrame(2).setScale(.5).setInteractive();
+      
+        this.quit_b = this.add.sprite(550,40,"menu");
+        this.quit_b.setFrame(4).setScale(.5).setInteractive();
+
+        this.restart_b.on('pointerover', function (pointer) {
+          this.restart_b.setFrame(3);
+        }, this);
+      
+        this.quit_b.on('pointerover', function (pointer) {
+          this.quit_b.setFrame(5);
+        }, this);
+
+        this.restart_b.on('pointerout', function (pointer) {
+          this.restart_b.setFrame(2);
+        }, this);
+        this.quit_b.on('pointerout', function (pointer) {
+          this.quit_b.setFrame(4);
+        }, this);
+
+        this.restart_b.on('pointerup', function (pointer) {
+          this.scene.start("levelFour");
+        }, this);
+        this.quit_b.on('pointerup', function (pointer) {
+          this.scene.start("playGame");
+        }, this);
         
         this.house1=this.add.sprite(250,250,"houses");
           this.house1.setFrame(0).setScale(2);
@@ -29,7 +58,7 @@ export default class levelFour extends Phaser.Scene {
           maxSpeed: 1.0
         };
         this.controls = new Phaser.Cameras.Controls.SmoothedKeyControl(controlConfig);
-        
+        /*Tubes begin below */
         this.tubeGroup = this.physics.add.group();
         this.tube1 = this.tubeGroup.create(250,337, "tubeA").setScale(.5).setInteractive();
           this.target1=this.tube1.angle=90;
@@ -101,7 +130,6 @@ export default class levelFour extends Phaser.Scene {
         this.target5 += 90;
       }
       this.rotate(this.tube5, this.target5);
-      console.log(this.tube5.angle);
     }, this);
     this.tube6.on('pointerdown', function (pointer) {
       if(this.target6+90>360){
@@ -119,7 +147,6 @@ export default class levelFour extends Phaser.Scene {
         this.target7 += 90;
       }
       this.rotate(this.tube7, this.target7);
-      console.log(this.tube7.angle);
     }, this);
     this.tube8.on('pointerdown', function (pointer) {
       if(this.target8+90>360){
@@ -192,9 +219,11 @@ export default class levelFour extends Phaser.Scene {
   }
   complete(){
     console.log("completed");
-    this.scene.start("winGame");
+        this.add.bitmapText(80,130, "pixelFont", "Level Complete!", 80).setDepth(100);
+        this.createSpeechBubble(130, 30, 140, 50, 'Congrats, matey');
   }
   rotate(tube, angle){
+    this.turn.play();
     this.tweens.add({
     targets: tube,
     angle: angle,

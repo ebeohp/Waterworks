@@ -4,6 +4,8 @@ export default class bootGame extends Phaser.Scene {
   }
   preload() {}
   create() {
+    this.watermusic = this.sound.add("watermusic");
+   
     this.texture=this.add.image(0,0,"texture");
     this.texture.setScale(1.5);
 
@@ -32,6 +34,7 @@ export default class bootGame extends Phaser.Scene {
   }
   waterRise(){
     this.water.play("water_anim");
+    this.watermusic.play();
     this.time.addEvent({  
       delay: 3000, 
       callback: this.startGame, 
