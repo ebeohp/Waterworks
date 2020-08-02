@@ -3,6 +3,16 @@ export default class levelFour extends Phaser.Scene {
       super("levelFour"); 
     }
     create() { 
+
+      this.initialTime = 0; //0secs
+      this.timeLabel = this.add.bitmapText(420,25, "pixelFont", "Timer: ",25).setDepth(200);
+      this.timeLabel.text = "Timer: " + this.timeFormat(this.initialTime);
+      var timer = this.time.addEvent({
+          delay:1000,
+          callback: this.onCount,
+          callbackScope: this,
+          loop: true
+      }); 
       this.turn=this.sound.add("turn");
       this.background= this.add.image(0,0, "background2"); //image is 1200x1200
         this.background.setOrigin(0);
@@ -12,10 +22,10 @@ export default class levelFour extends Phaser.Scene {
         this.mentor.play("itsy16_anim").setScale(2);
         this.text = this.createSpeechBubble(260, 20, 150, 50, 'Looks simple at first...');
 
-        this.restart_b = this.add.sprite(480,40,"menu");
+        this.restart_b = this.add.sprite(600,40,"menu");
         this.restart_b.setFrame(2).setScale(.5).setInteractive();
       
-        this.quit_b = this.add.sprite(550,40,"menu");
+        this.quit_b = this.add.sprite(670,40,"menu");
         this.quit_b.setFrame(4).setScale(.5).setInteractive();
 
         this.restart_b.on('pointerover', function (pointer) {
@@ -217,10 +227,18 @@ export default class levelFour extends Phaser.Scene {
   
 
   }
+  timeFormat(seconds){
+    var minutes = Math.floor(seconds/60);
+    var partInSeconds = seconds%60;
+    partInSeconds = partInSeconds.toString().padStart(2,"0");
+    return `${minutes}:${partInSeconds}`;
+}
+onCount(){
+    this.initialTime+=1;
+    this.timeLabel.text = "Timer: " + this.timeFormat(this.initialTime);
+}
   complete(){
-    console.log("completed");
-        this.add.bitmapText(80,130, "pixelFont", "Level Complete!", 80).setDepth(100);
-        this.createSpeechBubble(130, 30, 140, 50, 'Congrats, matey');
+    this.scene.start("winGame", {Level:4, Time: this.initialTime});
   }
   rotate(tube, angle){
     this.turn.play();

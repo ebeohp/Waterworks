@@ -3,12 +3,22 @@ export default class levelThree extends Phaser.Scene {
       super("levelThree");
     }
     create() { 
+
+      this.initialTime = 0; //0secs
+      this.timeLabel = this.add.bitmapText(300,25, "pixelFont", "Timer: ",25).setDepth(200);
+      this.timeLabel.text = "Timer: " + this.timeFormat(this.initialTime);
+      var timer = this.time.addEvent({
+          delay:1000,
+          callback: this.onCount,
+          callbackScope: this,
+          loop: true
+      }); 
         this.turn=this.sound.add("turn");
         this.background= this.add.image(0,0, "background2"); //image is 1200x1200
         this.background.setOrigin(0);
         this.mentor = this.add.sprite(99,84, "itsy16"); 
         this.mentor.play("itsy16_anim").setScale(2);
-        this.text = this.createSpeechBubble(150, 10, 200, 70, 'Do the tubes connect at the open ends? Also, try cursors...');
+        this.text = this.createSpeechBubble(150, 10, 140, 90, 'Do the tubes connect at the open ends? Also, try cursors...');
         
         this.restart_b = this.add.sprite(480,40,"menu");
         this.restart_b.setFrame(2).setScale(.5).setInteractive();
@@ -368,10 +378,18 @@ export default class levelThree extends Phaser.Scene {
         }); 
       }
     }
+    timeFormat(seconds){
+      var minutes = Math.floor(seconds/60);
+      var partInSeconds = seconds%60;
+      partInSeconds = partInSeconds.toString().padStart(2,"0");
+      return `${minutes}:${partInSeconds}`;
+  }
+  onCount(){
+      this.initialTime+=1;
+      this.timeLabel.text = "Timer: " + this.timeFormat(this.initialTime);
+  }
     complete(){
-      console.log("completed");
-      this.add.bitmapText(80,130, "pixelFont", "Level Complete!", 80).setDepth(100);
-      this.createSpeechBubble(130, 30, 140, 50, 'Congrats, matey');
+      this.scene.start("winGame", {Level:3, Time: this.initialTime});
     }
     rotate(tube, angle){
         this.turn.play();

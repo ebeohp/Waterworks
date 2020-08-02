@@ -3,7 +3,17 @@ export default class levelOne extends Phaser.Scene {
       super("levelOne");
     }
     create() { 
-     
+      this.initialTime = 0; //0secs
+      this.timeLabel = this.add.bitmapText(300,25, "pixelFont", "Timer: ",25).setDepth(200);
+      this.timeLabel.text = "Timer: " + this.timeFormat(this.initialTime);
+      var timer = this.time.addEvent({
+          delay:1000,
+          callback: this.onCount,
+          callbackScope: this,
+          loop: true
+      }); 
+
+
         this.turn=this.sound.add("turn");
         this.add.bitmapText(30,30, "pixelFont", "Level 1", 40).setDepth(100);
         this.background=this.add.image(0,0,"background");
@@ -76,10 +86,18 @@ export default class levelOne extends Phaser.Scene {
 
         
       }
+      timeFormat(seconds){
+        var minutes = Math.floor(seconds/60);
+        var partInSeconds = seconds%60;
+        partInSeconds = partInSeconds.toString().padStart(2,"0");
+        return `${minutes}:${partInSeconds}`;
+    }
+    onCount(){
+        this.initialTime+=1;
+        this.timeLabel.text = "Timer: " + this.timeFormat(this.initialTime);
+    }
       complete(){
-        console.log("completed");
-        this.add.bitmapText(80,130, "pixelFont", "Level Complete!", 80).setDepth(100);
-        this.createSpeechBubble(130, 30, 140, 50, 'Congrats, matey');
+        this.scene.start("winGame", {Level:1, Time: this.initialTime});
       }
       rotate(tube, angle){
         this.turn.play();
@@ -98,7 +116,7 @@ export default class levelOne extends Phaser.Scene {
             callback: this.complete, 
             callbackScope: this, 
             loop: false
-        });
+          });
      
         }
       }

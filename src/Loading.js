@@ -112,7 +112,7 @@ class Loading extends Phaser.Scene {
     this.anims.create({
       key: "loading",
       frames: this.anims.generateFrameNumbers("bar"),
-      frameRate: 12,
+      frameRate: 20,
     });
     this.anims.create({
       key: "itsy_blink",
@@ -132,18 +132,15 @@ class Loading extends Phaser.Scene {
       frameRate: 3,
       repeat: -1
     });
-    this.progbar = this.add.sprite(300, 350, "bar");
-    this.progbar.play("loading").setScale(2);
-
+    
     this.logo = this.add.image(300, 230, "logo");
     this.logo.setScale(7);
-   /* this.time.addEvent({
-      delay: 4000,
+    this.time.addEvent({
+      delay: 2000,
       callback: this.finishLoad,
       callbackScope: this,
       loop: true,
-    });*/
-    this.scene.start("levelFive"); //delete and revert to above for prod
+    });
   }
   update() {}
   finishLoad() {

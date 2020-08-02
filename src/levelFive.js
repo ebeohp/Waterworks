@@ -3,6 +3,16 @@ export default class levelFive extends Phaser.Scene {
       super("levelFive"); 
     }
     create() { 
+      this.initialTime = 0; //0secs
+      this.timeLabel = this.add.bitmapText(300,25, "pixelFont", "Timer: ",25).setDepth(200);
+      this.timeLabel.text = "Timer: " + this.timeFormat(this.initialTime);
+      var timer = this.time.addEvent({
+          delay:1000,
+          callback: this.onCount,
+          callbackScope: this,
+          loop: true
+      }); 
+     
       this.turn=this.sound.add("turn");
       this.add.bitmapText(30,30, "pixelFont", "Level 5", 40).setDepth(100);
       this.background=this.add.image(0,0,"background");
@@ -284,10 +294,18 @@ export default class levelFive extends Phaser.Scene {
           this.rotate(this.tube23, this.target23);
       }, this);
     }
+    timeFormat(seconds){
+      var minutes = Math.floor(seconds/60);
+      var partInSeconds = seconds%60;
+      partInSeconds = partInSeconds.toString().padStart(2,"0");
+      return `${minutes}:${partInSeconds}`;
+  }
+  onCount(){
+      this.initialTime+=1;
+      this.timeLabel.text = "Timer: " + this.timeFormat(this.initialTime);
+  }
     complete(){
-          
-          this.add.bitmapText(80,130, "pixelFont", "Level Complete!", 80).setDepth(100);
-          this.createSpeechBubble(130, 30, 140, 50, 'Congrats, matey');
+      this.scene.start("winGame", {Level:5, Time: this.initialTime});
     }
     rotate(tube, angle){
       this.turn.play();
